@@ -27,7 +27,7 @@ def test(length):
 
 def main():
     word_dict = {}
-    with urllib.urlopen("http://s3.amazonaws.com/modelsuperlarge/grams.pickle") as f:
+    with urllib2.urlopen("http://s3.amazonaws.com/modelsuperlarge/grams.pickle") as f:
         word_dict = pickle.load(f)
 
     print word_dict.keys()[1]
