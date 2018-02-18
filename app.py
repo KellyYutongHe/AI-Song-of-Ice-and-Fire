@@ -1,6 +1,6 @@
 import random
 import string
-import os.path, os.environ
+import os
 import cherrypy
 import mc
 
