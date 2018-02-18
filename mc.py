@@ -6,20 +6,32 @@ import pickle
 import random
 import string
 import urllib2
+import operator
 
+def predict(phrase, word_dict):
+    result = ""
+    probs = sorted(word_dict[phrase].items(), key=operator.itemgetter(1), reverse = True)
+    print probs
+    target = rand()*sum([i[1] for i in probs])
+    try:
+        index = list(searchsorted(cumsum([i[1] for i in probs]), target))[0]
+    except:
+        index = searchsorted(cumsum([i[1] for i in probs]), target)
+    if probs[index][0] == "'" or probs[index][0] == "The":
+        result = predict(phrase, word_dict)
+    else:
+        result = probs[index][0]
+    return result
 
-def predict(phrase):
-    probs = sorted(word_dict[phrase].iteritems(), key=lambda (k,v): (v,k), reverse = True)
-    target = rand()*sum(probs.values())
-    index = searchsorted(cumsum(probs.values()), target)[0]
-    return probs[probs.keys()[index]]
-
-def generate(start, n):
+def generate(start, n, word_dict):
     result = start
     for i in range(n):
-        new = predict(tuple(start.split(" ")))
+        print start
+        new = predict(tuple(start.split(" ")[-2:]),word_dict)
+        print new
+        result += " "
         result += new
-        start = start[1:] + new
+        start = result
     return result
 
 def test(length):
@@ -27,10 +39,11 @@ def test(length):
 
 def main():
     word_dict = {}
-    word_dict = pickle.load(urllib2.urlopen("https://s3.us-east-2.amazonaws.com/modelsuperbig/grams.pickle"))
-
+#    word_dict = pickle.load(urllib2.urlopen("https://s3.us-east-2.amazonaws.com/modelsuperbig/grams.pickle"))
+    with open("../grams.pickle", "rb") as f:
+        word_dict = pickle.load(f)
     print word_dict.keys()[1]
-    print generate("I", 2)
+    print generate("Storm", 150, word_dict)
 
 if __name__ == "__main__":
     main()
