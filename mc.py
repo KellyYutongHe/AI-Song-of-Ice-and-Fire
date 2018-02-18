@@ -5,6 +5,7 @@ from random import randint
 import pickle
 import random
 import string
+import urllib2
 
 
 def predict(phrase):
@@ -26,7 +27,7 @@ def test(length):
 
 def main():
     word_dict = {}
-    with open("grams.pickle", "rb") as f:
+    with urllib.urlopen("http://s3.amazonaws.com/modelsuperlarge/grams.pickle") as f:
         word_dict = pickle.load(f)
 
     print word_dict.keys()[1]
