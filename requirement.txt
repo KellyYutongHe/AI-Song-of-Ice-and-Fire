@@ -1,0 +1,12 @@
+gunicorn
+cherrypy
+Jinja2
+Werkzeug
+distribute
+wsgiref
+numpy
+collections
+pickle
+random
+string
+os
