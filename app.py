@@ -21,4 +21,4 @@ class Generator(object):
 
 if __name__ == '__main__':
     configfile = os.path.join(os.path.dirname(__file__), "server.conf")
-    cherrypy.quickstart(Generator())
+    cherrypy.quickstart(Generator(), config = configfile)
